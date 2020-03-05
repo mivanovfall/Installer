@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+
+    <description>Stubwsv2ws Web Service</description>
+    <display-name>stubwsv2</display-name>
+    <servlet>
+        <servlet-name>HelloWorld</servlet-name>
+        <servlet-class>ru.diasoft.services.stubwsv2.HellWorld</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HelloWorld</servlet-name>
+        <url-pattern>/stubwsv2</url-pattern>
+    </servlet-mapping>
+
+</web-app>
