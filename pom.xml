@@ -17,4 +17,61 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <!--<version>1.12</version>-->
+                <version>2.4.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.jws</groupId>
+                        <artifactId>jsr181-api</artifactId>
+                        <version>1.0-MR1</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <args>
+                        <!--ObjectFactory already exists error -->
+                        <arg>-extension</arg>
+
+                        <!--IN/OUT parameters as in xsd -->
+                        <arg>-b</arg>
+                        <arg>jaxb.xml</arg>
+
+                        <!--No @XmlSeeAlso and excessive namespace in res xml -->
+                        <arg>-target</arg>
+                        <arg>2.0</arg>
+                    </args>
+                    <wsdlDirectory>src/main/webapp/WEB-INF/wsdl/</wsdlDirectory>
+                    <sourceDestDir>generated/</sourceDestDir>
+                    <verbose>true</verbose>
+                    <xdebug>true</xdebug>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+
 </project>

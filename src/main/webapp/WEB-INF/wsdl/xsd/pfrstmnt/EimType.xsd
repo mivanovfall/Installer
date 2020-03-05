@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema xmlns:ns2="urn://mincomsvyaz/commons/integration_module_types/1.0.1" elementFormDefault="qualified" targetNamespace="urn://mincomsvyaz/commons/integration_module_types/1.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:annotation>
+        <xs:documentation>
+      Описания типов данных для технологического сервиса интеграционного модуля под СМЭВ 3.x (аналог SID0004152)
+    </xs:documentation>
+    </xs:annotation>
+    <xs:simpleType name="string100Type">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="100" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="AttachmentRefType">
+	  <xs:annotation>
+		<xs:documentation>Ссылка из содержательной части ответа на вложение, находящееся в том же СМЭВ-сообщении</xs:documentation>
+	  </xs:annotation>
+	  <xs:attribute name="attachmentId" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>
+				Идентификатор вложения, на которое ссылаемся. Должен быть равен значению
+				//{urn://x-artefacts-smev-gov-ru/smev-core/client-interaction/basic/1.0}AttachedFile[n]/Id/text()
+				того вложения, на которое нужно сослаться.
+			</xs:documentation>
+		</xs:annotation>
+	  </xs:attribute>
+    </xs:complexType>
+	<xs:simpleType name="EnvType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="DEV" />
+            <xs:enumeration value="UAT" />
+			<xs:enumeration value="SVCDEV" />
+			<xs:enumeration value="TCOD" />
+			<xs:enumeration value="PROD" />
+		</xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="statuscodeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NEW" />
+            <xs:enumeration value="WAIT_ORDER_ACCEPT" />
+			<xs:enumeration value="WAIT_ACCOUNT_CONFIRM" />
+            <xs:enumeration value="SEND_TO_DEPARTMENT" />
+            <xs:enumeration value="USER_CANCELED" />
+            <xs:enumeration value="BLOCKED" />
+            <xs:enumeration value="INTERNAL_ERROR" />
+            <xs:enumeration value="COMPLETE_SUCCESS" />
+            <xs:enumeration value="COMPLETE_ERROR" />
+            <xs:enumeration value="EXPIRED" />
+            <xs:enumeration value="USER_NOT_FOUND" />
+            <xs:enumeration value="USER_BUSY" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="limitType">
+        <xs:sequence>
+            <xs:element name="day" type="xs:long" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Количество запросов за день</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="month" type="xs:long" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Количество запросов за месяц</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="total" type="xs:long" minOccurs="0" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Общее количество запросов</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="draftType">
+        <xs:sequence>
+            <xs:element name="version" type="xs:long" />
+            <xs:element name="fields" type="ns2:listfieldsType" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="listfieldsType">
+        <xs:sequence>
+            <xs:element name="draftfield" type="ns2:draftfieldType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="draftfieldType">
+        <xs:sequence>
+            <xs:element name="code" type="xs:string" />
+            <xs:element name="content" type="ns2:listcontentType" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="listcontentType">
+        <xs:sequence>
+            <xs:element name="content" type="ns2:contentType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="contentType">
+        <xs:sequence>
+            <xs:element name="value" type="xs:string" />
+            <xs:element name="orderNumber" type="xs:int" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="personType">
+        <xs:sequence>
+            <xs:element name="snils" type="ns2:snilsType" minOccurs="0"/>
+            <xs:element name="firstName" type="ns2:string100Type" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="lastName" type="ns2:string100Type" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="secondName" type="ns2:string100Type" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="bdate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="passport" type="ns2:personpassportType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="phone" type="ns2:phoneType" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="personpassportType">
+        <xs:sequence>
+            <xs:element name="series" type="ns2:passportseriesType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="num" type="ns2:passportnumberType" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="issueDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="issueCode" type="ns2:passportissuecodeType" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="snilsType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{3}-\d{3}-\d{3} \d{2}" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="phoneType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}" />
+        </xs:restriction>
+    </xs:simpleType>
+        <xs:simpleType name="passportseriesType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{2} \d{2}" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="passportnumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{6}" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="passportissuecodeType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\d{3}-\d{3}" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="errorstatusinfoType">
+        <xs:sequence>
+            <xs:element name="Code" type="ns2:errorcodeType" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Код ошибки</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Message" type="ns2:errormessageType" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>Описание ошибки</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="errorcodeType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="32" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="errormessageType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="512" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
